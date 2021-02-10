@@ -16,7 +16,33 @@ def get_players_decks(card_list: list):
     return cards_player_a, cards_player_b
 
 
+def compare_cards(cards_of_player_a, cards_of_player_b, score):
+    turn_winners = []
+
+    for index_card in range(len(cards_of_player_a)):
+        card_of_player_a = cards_of_player_a[index_card]
+        card_of_player_b = cards_of_player_b[index_card]
+
+        card_winner = []
+        for attributes in card_of_player_a.keys():
+            if attributes != 'name':
+                if card_of_player_a[attributes] > card_of_player_b[attributes]:
+                    winner = 1
+                elif card_of_player_a[attributes] < card_of_player_b[attributes]:
+                    winner = 2
+                card_winner.append(winner)
+
+        turn_winners.append(1 if card_winner.count(1) > card_winner.count(2) else 2)
+
+    return turn_winners.count(1), turn_winners.count(2)
+
+
+def main():
+    score = (0, 0,)
+    cards_player_a, cards_player_b = get_players_decks(SUPER_HEROS)
+    scores = compare_cards(cards_player_a[:1], cards_player_b[:1], score)
+    print(scores)
+
+
 if __name__ == '__main__':
-    cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    cards_player_a, cards_player_b = get_players_decks(cards)
-    print(cards_player_a, cards_player_b)
+    main()
